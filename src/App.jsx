@@ -9,9 +9,8 @@ import DepartureBoard from "./components/DepartureBoard";
 const REFRESH_INTERVAL_MS = 60_000;
 const CLOCK_TICK_MS = 1_000;
 
-// The two fixed routes shown side by side on the board. Each column only
-// shows departures from its stop that are heading toward the given
-// destination, on the given transport mode (both are Bybanen tram lines).
+// The fixed route shown on the board. Only departures from its stop heading toward the given
+// destination, on the given transport mode (a Bybanen tram line), are shown.
 const ROUTES = [
   {
     stopId: "NSR:StopPlace:31377",
@@ -20,15 +19,8 @@ const ROUTES = [
     // Bybanen displays this direction as "Bergen sentrum", not "Byparken".
     destinationMatch: /sentrum/i,
     destinationLabel: "Sentrum",
+    arrivalStop: "Byparken",
     walkMinutes: 6,
-  },
-  {
-    stopId: "NSR:StopPlace:60731",
-    label: "Wergeland \u2192 Flesland",
-    mode: "tram",
-    destinationMatch: /lufthavn/i,
-    destinationLabel: "Flesland",
-    walkMinutes: 7,
   },
 ];
 
@@ -66,7 +58,15 @@ export default function App() {
                   d.mode === route.mode &&
                   route.destinationMatch.test(d.destination)
               )
-              .map((d) => ({ ...d, destination: route.destinationLabel }))
+              .map((d) => {
+                const stop = d.stops.find((s) => s.name === route.arrivalStop);
+                // Ignore a stop time before departure (e.g. wrong service day).
+                const arrivalTime =
+                  stop && stop.arrivalTime > d.departureTime
+                    ? stop.arrivalTime
+                    : null;
+                return { ...d, destination: route.destinationLabel, arrivalTime };
+              })
               .slice(0, 6);
             return { ...route, departures: filtered, error: null };
           } catch (err) {

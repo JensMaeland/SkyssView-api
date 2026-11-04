@@ -11,8 +11,8 @@ function TramIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
-      width="18"
-      height="18"
+      width="26"
+      height="26"
       fill="none"
       stroke="currentColor"
       strokeWidth="2"
@@ -33,7 +33,7 @@ function TramIcon() {
 // Simple monochrome walking-person glyph, shown next to the leave-in time.
 function WalkIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
       <circle cx="13.5" cy="4" r="2" />
       <path d="M9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6z" />
     </svg>
@@ -86,9 +86,9 @@ function Column({ label, departures, walkMinutes, now, error }) {
     (dep) => dep.minutesUntil - walkMinutes >= 0
   );
 
-  // Show at most 3: the one just missed, the walkable one, and the next.
+  // Show at most 4: the one just missed, the walkable one, and the next two.
   const windowStart = Math.max(0, (relevantIndex < 0 ? 0 : relevantIndex) - 1);
-  const shownDepartures = liveDepartures.slice(windowStart, windowStart + 3);
+  const shownDepartures = liveDepartures.slice(windowStart, windowStart + 4);
   const shownRelevantIndex = relevantIndex - windowStart;
 
   return (
@@ -120,9 +120,12 @@ function Column({ label, departures, walkMinutes, now, error }) {
                     MODE_ICON[dep.mode] ?? "\u25A0"
                   )}
                 </div>
-                <div className="row__destination">{dep.destination}</div>
-                <div className="row__time">
-                  {formatClock(dep.departureTime)}
+                <div className="row__destination">
+                  <div className="row__destination-name">{dep.destination}</div>
+                  <div className="row__arrival">
+                    {formatClock(dep.departureTime)}
+                    {dep.arrivalTime && ` \u2192 ${formatClock(dep.arrivalTime)}`}
+                  </div>
                 </div>
                 <div className="row__times">
                   <div

@@ -28,11 +28,11 @@ body {
 }
 
 /* The board is designed to a fixed pixel canvas matching common e-ink
-   panels (default: Inkplate 6, 800x480 landscape). Override via
+   panels (default: Inkplate 6, 800x600 landscape). Override via
    --board-w / --board-h if you're targeting different hardware. */
 .board {
   --board-w: 800px;
-  --board-h: 480px;
+  --board-h: 600px;
   width: var(--board-w);
   height: var(--board-h);
   margin: 0 auto;
@@ -90,7 +90,7 @@ body {
 
 .board__updated-at {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 16px;
   color: var(--gray-mid);
 }
 
@@ -98,7 +98,7 @@ body {
   padding: 10px 28px;
   font-family: var(--font-sans);
   font-style: italic;
-  font-size: 15px;
+  font-size: 18px;
   text-align: center;
   border-bottom: 1px solid var(--gray-line);
 }
@@ -121,10 +121,11 @@ body {
 
 .board__column-label {
   margin: 0;
-  padding: 14px 20px 10px;
+  padding: 18px 28px 12px;
+  text-align: center;
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 19px;
+  font-size: 28px;
   text-transform: uppercase;
   letter-spacing: -0.01em;
   border-bottom: 1px solid var(--gray-line);
@@ -139,9 +140,9 @@ body {
 .row {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
-  height: 74px;
+  gap: 14px;
+  padding: 0 28px;
+  height: 96px;
   border-bottom: 1px solid var(--gray-line);
 }
 
@@ -151,46 +152,55 @@ body {
 
 .row__mode {
   flex: 0 0 auto;
-  width: 26px;
-  font-size: 20px;
+  width: 34px;
+  font-size: 28px;
   text-align: center;
   color: var(--gray-mid);
 }
 
 .row__star {
   flex: 0 0 auto;
-  width: 22px;
-  font-size: 20px;
+  width: 30px;
+  font-size: 28px;
   text-align: center;
 }
 
 .row--relevant {
   font-weight: 700;
-  background: #c4c4c4;
 }
 
 .row__destination {
   flex: 1 1 auto;
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 19px;
+  font-size: 32px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+}
+
+.row__arrival {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 30px;
+  color: var(--gray-mid);
 }
 
 .row__time {
   flex: 0 0 auto;
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 19px;
   color: var(--gray-mid);
-  min-width: 46px;
+  min-width: 54px;
   text-align: right;
 }
 
 .row__eta {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 22px;
   color: var(--gray-mid);
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -202,13 +212,13 @@ body {
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
-  min-width: 88px;
+  min-width: 130px;
 }
 
 .row__leave-in {
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 34px;
   text-align: right;
   display: flex;
   align-items: center;

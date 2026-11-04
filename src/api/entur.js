@@ -27,6 +27,14 @@ const QUERY = `
             publicCode
             transportMode
           }
+          estimatedCalls {
+            expectedArrivalTime
+            quay {
+              stopPlace {
+                name
+              }
+            }
+          }
         }
       }
     }
@@ -75,6 +83,10 @@ export async function fetchDepartures(stopId, count = 8) {
         destination: call.destinationDisplay?.frontText ?? "",
         departureTime: new Date(call.expectedDepartureTime),
         realtime: call.realtime,
+        stops: (call.serviceJourney?.estimatedCalls ?? []).map((s) => ({
+          name: s.quay?.stopPlace?.name ?? "",
+          arrivalTime: new Date(s.expectedArrivalTime),
+        })),
       };
     });
 

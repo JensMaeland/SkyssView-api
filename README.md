@@ -55,7 +55,7 @@ canvas exactly as it'll be screenshotted later (e.g.
 
 ## Design notes
 
-- The board renders to a fixed 800×480px canvas by default, matching the
+- The board renders to a fixed 800×600px canvas by default, matching the
   Inkplate 6's resolution. If you end up with different hardware, change
   `--board-w` / `--board-h` in `src/index.css`.
 - Everything is pure black/white with no gradients or color reliance —
