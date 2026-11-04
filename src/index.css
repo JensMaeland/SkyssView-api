@@ -1,0 +1,256 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;700&family=IBM+Plex+Sans:wght@400;600;700&display=swap");
+
+:root {
+  --ink: #000000;
+  --paper: #ffffff;
+  --gray-mid: #6b6b6b;
+  --gray-line: #bdbdbd;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The board is designed to a fixed pixel canvas matching common e-ink
+   panels (default: Inkplate 6, 800x480 landscape). Override via
+   --board-w / --board-h if you're targeting different hardware. */
+.board {
+  --board-w: 800px;
+  --board-h: 480px;
+  width: var(--board-w);
+  height: var(--board-h);
+  margin: 0 auto;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #eee; /* dev-only frame so you can see the canvas edge */
+}
+
+.board__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 28px 14px;
+  border-bottom: 4px solid var(--ink);
+}
+
+.board__stop-name {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: -0.01em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.board__clock-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.board__clock-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.board__date {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 26px;
+  text-transform: capitalize;
+}
+
+.board__clock {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 26px;
+  font-variant-numeric: tabular-nums;
+}
+
+.board__updated-at {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-mid);
+}
+
+.board__quote {
+  padding: 10px 28px;
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 15px;
+  text-align: center;
+  border-bottom: 1px solid var(--gray-line);
+}
+
+.board__columns {
+  flex: 1;
+  display: flex;
+}
+
+.board__column {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.board__column + .board__column {
+  border-left: 4px solid var(--ink);
+}
+
+.board__column-label {
+  margin: 0;
+  padding: 14px 20px 10px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 19px;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  border-bottom: 1px solid var(--gray-line);
+}
+
+.board__rows {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  height: 74px;
+  border-bottom: 1px solid var(--gray-line);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__mode {
+  flex: 0 0 auto;
+  width: 26px;
+  font-size: 20px;
+  text-align: center;
+  color: var(--gray-mid);
+}
+
+.row__star {
+  flex: 0 0 auto;
+  width: 22px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.row--relevant {
+  font-weight: 700;
+  background: #c4c4c4;
+}
+
+.row__destination {
+  flex: 1 1 auto;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 19px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row__time {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  color: var(--gray-mid);
+  min-width: 46px;
+  text-align: right;
+}
+
+.row__eta {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--gray-mid);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.row__times {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 88px;
+}
+
+.row__leave-in {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 20px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+.row__leave-in--urgent {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.board__empty,
+.board__error {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  color: var(--gray-mid);
+  text-align: center;
+  padding: 40px;
+}
+
+/* Preview-only chrome (not part of the captured board canvas) */
+.preview-shell {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 16px;
+  background: #bebcbc;
+  font-family: var(--font-sans);
+}
+
+.preview-note {
+  font-size: 13px;
+  color: #888;
+  max-width: 800px;
+  text-align: center;
+  line-height: 1.5;
+}
